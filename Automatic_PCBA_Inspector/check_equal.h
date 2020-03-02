@@ -4,7 +4,7 @@ This function checks that two image matrices have the same size and number of ch
 //Define header name and include and use relevant libraries
 #ifndef CHECK_EQUAL_H_
 #define CHECK_EQUAL_H_
-#include "Shared_include.h"
+#include "shared_include.h"
 #pragma once
 using namespace std;
 using namespace cv;
@@ -52,7 +52,7 @@ double check_equal(const Mat A, const Mat B)
         else
         {
             //If there is a difference when subtracting image A and image B then print that the images are not equal
-            printf("The images are not equal\n");
+            printf("The images are not equal\n Blue %i\n Red %i\n Green %i\n", blue_compare, red_compare, green_compare);
         }
     }
     return 0;

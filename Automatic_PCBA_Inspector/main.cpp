@@ -14,18 +14,17 @@ Use this code as a base for your assignment.
 This is a proof of concept software to demonstrate the use of machine vision for automated circuit inspection
 
 */
-#include "Shared_include.h"
-#include "Check_equal.h"
-#include "Homography_check.h"
+#include "shared_include.h"
+#include "check_equal.h"
+#include "homography_check.h"
+#include "realign.h"
 //#include "main.h"
 using namespace std;
 using namespace cv;
 //Global definitions for image paths
-static string referenceimg(test_img_path + "Chessboard.jpg");
-static string productimg(test_img_path + "Chessboard_rotated.jpg");
+static string referenceimg(test_img_path + "Chessboardmod.jpg");
+static string productimg(test_img_path + "Chessboardmod_rotated.jpg");
 static string fixedimg(output_img_path + "aligned_image.jpg");
-//static string referenceimg("C:/Samples/Chessboard.jpg");
-//static string productimg("C:/Samples/Chessboard_rotated.jpg");
 
 int main()
 {
@@ -70,7 +69,9 @@ int main()
         //Check if the images are equal
         check_equal(img0, img1);
         //Perform ORB feature detection and homography translation on the images
-        homography_check(img0, img1, max_features);
+        //homography_check(img0, img1);
+        Realign.image_realignment(img0, img1);
+
         check_equal(img0, img2);
     }
     //Wait until 0 is pressed to exit

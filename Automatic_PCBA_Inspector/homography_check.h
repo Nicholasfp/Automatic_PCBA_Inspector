@@ -1,9 +1,14 @@
 #ifndef HOMOGRAPHY_CHECK_H_
 #define HOMOGRAPHY_CHECK_H_
-#include "Shared_include.h"
+#include "shared_include.h"
 #pragma once
 using namespace std;
 using namespace cv;
+
+//Global constant for the maximum number of features to search for
+const int max_features2 = 500;
+//Global constant for the percentage match requirement
+const float good_match_percent2 = 0.15f;
 
 //A function that uses ORB to detect key features and align images with homography
 void image_alignment(Mat B, Mat A, Mat imReg, Mat h)
@@ -21,7 +26,7 @@ void image_alignment(Mat B, Mat A, Mat imReg, Mat h)
     Mat descriptorsA, descriptorsB;
 
     // Detect ORB features and compute descriptors
-    Ptr<Feature2D> orb = ORB::create(max_features);
+    Ptr<Feature2D> orb = ORB::create(max_features2);
     orb->detectAndCompute(AGray, Mat(), keypointsA, descriptorsA);
     orb->detectAndCompute(BGray, Mat(), keypointsB, descriptorsB);
 
@@ -35,7 +40,7 @@ void image_alignment(Mat B, Mat A, Mat imReg, Mat h)
     sort(matches.begin(), matches.end());
 
     // Remove matches under the good match percentage
-    const int numGoodMatches = matches.size() * good_match_percent;
+    const int numGoodMatches = matches.size() * good_match_percent2;
     matches.erase(matches.begin() + numGoodMatches, matches.end());
 
 
@@ -71,7 +76,7 @@ void image_alignment(Mat B, Mat A, Mat imReg, Mat h)
 
 
 
-double homography_check(Mat A, Mat B, int max_features)
+double homography_check(Mat A, Mat B)
 {
     //Create matrices to store the registered image and to store the homography matrix
     Mat h;
