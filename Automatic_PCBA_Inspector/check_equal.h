@@ -14,6 +14,7 @@ double check_equal(const Mat A, const Mat B)
 {
     //An empty matrix for later calculations
     Mat result;
+    Mat Mask;
     //Create a array for the result matrix to be split into blue, green and red
     Mat bgr[3];
     //Create comparing integers for channels, collumns and rows. Which represent the number of colour channels of each image and the size in collumns and rows of each image
@@ -32,9 +33,58 @@ double check_equal(const Mat A, const Mat B)
         //Display that the images have the same size and channels
         printf("The images have the same size and channels\n");
         //Work out the difference between A and B and output the difference as result
-        subtract(A, B, result);
+        absdiff(A, B, result);
         //Split result matrix into blue green and red values
         split(result, bgr);
+        /*
+         *  Colouring mask
+         *
+         */
+        //Mat Temp;
+        //Convert from grey to BGR and save in Mask
+        cvtColor(bgr[1], Mask, COLOR_GRAY2BGR);
+        //cvtColor(bgr[1], Mask, COLOR_BGR2HSV_FULL);
+        //Search for non black values (difference) between the threshold and save difference in Mask
+        inRange(bgr[1], Scalar(265, 0, 100), Scalar(265, 5, 63), Mask);
+        //Convert threshold values to green and save as mask
+        Mask.setTo(Scalar(82, 87, 100), bgr[1]);
+        imwrite(calculation_img_path + "Mask.png", Mask);
+        namedWindow("Mask", WINDOW_NORMAL);
+        imshow("Mask", Mask);
+        namedWindow("Green", WINDOW_NORMAL);
+        imshow("Green", bgr[1]);
+
+
+        int dilation_size=1;
+        Mat element = getStructuringElement( MORPH_ELLIPSE,
+                                             Size( 2*dilation_size + 1, 2*dilation_size+1 ),
+                                             Point( dilation_size, dilation_size ) );
+
+
+
+        cvtColor(result,result,CV_BGR2GRAY);
+
+        inRange(result, 30, 255, Mask);
+        erode(Mask, Mask, element);
+        dilate(Mask, Mask, element);
+
+
+
+
+
+
+
+        Mat Diff(Mask.size(),CV_8UC3,Scalar(0,0,0));
+        Diff.setTo(Scalar(0, 0, 255), Mask);
+        imshow("result", Diff);
+
+
+
+        /*
+         *  End colouring
+         *
+         */
+
         //Save each colour channel as an image in calculation images
         imwrite(calculation_img_path + "blue.png", bgr[0]);
         imwrite(calculation_img_path + "green.png", bgr[1]);
