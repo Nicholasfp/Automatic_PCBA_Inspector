@@ -36,6 +36,5 @@ SOURCES += \
 HEADERS += \
     ../../../../Desktop/OpenCV test 1.1/OpenCV test 1.1/Shared_include.h \
     shared_include.h \
-    check_equal.h \
     realign.h \
     detectdifference.h

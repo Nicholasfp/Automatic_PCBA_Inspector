@@ -60,13 +60,11 @@ double Realign::image_realignment(Mat input, Mat reference)
 
         //Use homography to warp image for use in alignment
         warpPerspective(reference, output, homography_matrix, input.size());
-
         //Save the output file
         imwrite(output_img_path + "aligned_image.jpg", output);
 
         //Print estimated homography
         cout << "Estimated homography" << endl << homography_matrix << endl;
-
         //Display matches
         namedWindow("Matches", WINDOW_NORMAL);
         Mat match_draw = imread(calculation_img_path + "matches.jpg");

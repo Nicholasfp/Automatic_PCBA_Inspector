@@ -1,3 +1,4 @@
+
 /*
 Phil Culverhouse Oct 2016 (c) Plymouth University
 James Rogers Jan 2020     (c) Plymouth University
@@ -21,8 +22,8 @@ This is a proof of concept software to demonstrate the use of machine vision for
 using namespace std;
 using namespace cv;
 //Global definitions for image paths
-static string referenceimg(test_img_path + "Reference.jpg");
-static string productimg(test_img_path + "Rotatdif.jpg");
+static string referenceimg(test_img_path + "Reference01.jpg");
+static string productimg(test_img_path + "Different01.jpg");
 static string fixedimg(output_img_path + "aligned_image.jpg");
 
 int main()
@@ -32,7 +33,6 @@ int main()
     //Read the images stored in the directory and define them as img0 and img1
     Mat Reference = imread(referenceimg);
     Mat Input = imread(productimg);
-    Mat Aligned = imread(fixedimg);
     //Create two windows for reference image and for the product image
     namedWindow("Reference", WINDOW_NORMAL);
     namedWindow("Product", WINDOW_NORMAL);
@@ -47,7 +47,7 @@ int main()
     //Failure condition test mode to check if no image is available
     if (Reference.empty())
     {
-        //Print img0 is missing
+        //Print reference image is missing
         printf("Error: reference image is missing");
         //Wait for any key press to exit
         cin.get();
@@ -55,7 +55,7 @@ int main()
     }
     else if (Input.empty())
     {
-        //Print img1 is missing
+        //Print input image is missing
         printf("Error: product image is missing");
         //Wait for any key press to exit
         cin.get();
@@ -64,15 +64,9 @@ int main()
     //If both images are available then run comparision algorithms
     else
     {
-        //Check if the images are equal
-        //check_equal(img0, img1);
-        //Perform ORB feature detection and homography translation on the images
-        //homography_check(img0, img1);
         Realign.image_realignment(Reference, Input);
-        DetectDifference.DetectError(Reference, Input);
-        printf("Homography\r\n");
-        //check_equal(Reference, Input);
-        printf("Check equal\r\n");
+        Mat Aligned = imread(fixedimg);
+        DetectDifference.DetectError(Reference, Aligned);
     }
     //Wait until 0 is pressed to exit
     waitKey(0);
