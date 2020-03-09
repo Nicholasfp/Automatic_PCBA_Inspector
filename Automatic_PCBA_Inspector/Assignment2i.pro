@@ -31,10 +31,12 @@ LIBS += -lopencv_core \
 SOURCES += \
     main.cpp \
     realign.cpp \
-    detectdifference.cpp
+    detectdifference.cpp \
+    imagecapture.cpp
 
 HEADERS += \
     ../../../../Desktop/OpenCV test 1.1/OpenCV test 1.1/Shared_include.h \
     shared_include.h \
     realign.h \
-    detectdifference.h
+    detectdifference.h \
+    imagecapture.h

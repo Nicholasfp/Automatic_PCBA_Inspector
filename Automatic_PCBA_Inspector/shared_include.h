@@ -16,9 +16,11 @@
 using namespace std;
 using namespace cv;
 //Global constant for test and reference images file path
-const string test_img_path = "C:/Samples/";
+const string test_img_path = "C:/Samples/Reference images/01/";
 //Global constant for calculation images file path
 const string calculation_img_path = "C:/Samples/Calculation images/";
 //Global constant for output images file path
 const string output_img_path = "C:/Samples/Output images/";
+//Global constant for captured images
+const string capture_img_path = "C:/Samples/capture";
 #endif

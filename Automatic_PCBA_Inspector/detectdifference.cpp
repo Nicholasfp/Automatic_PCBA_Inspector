@@ -20,6 +20,7 @@ double DetectDifference::DetectError(const Mat Reference, const Mat Input)
     cout<<Input.size()<<endl;
     absdiff(Reference, Input, result);
     printf("Calculate absolute difference\n\r");
+
     /*
      *  Noise reduction mask
      *

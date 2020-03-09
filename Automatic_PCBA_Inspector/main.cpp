@@ -16,9 +16,9 @@ This is a proof of concept software to demonstrate the use of machine vision for
 
 */
 #include "shared_include.h"
-#include "check_equal.h"
 #include "realign.h"
 #include "detectdifference.h"
+//#include "imagecapture.h"
 using namespace std;
 using namespace cv;
 //Global definitions for image paths

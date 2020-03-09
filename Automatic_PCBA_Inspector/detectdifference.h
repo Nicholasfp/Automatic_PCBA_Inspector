@@ -11,6 +11,8 @@ class DetectDifference
     public:
         //Define the detect error function
         double DetectError(const Mat Reference, const Mat Input);
+        //Define the simple blob detection function
+
     private:
         //Define private variables
         Mat result;
