@@ -4,9 +4,6 @@ class Realign Realign;
 
 double Realign::image_realignment(Mat input, Mat reference)
 {
-//    //A function that uses ORB to detect key features and align images with homography
-//    void image_alignment(Mat B, Mat A, Mat imReg, Mat h)
-
     {
         //Create two empty matrices for use as grayscale images
         Mat AGray, BGray;
