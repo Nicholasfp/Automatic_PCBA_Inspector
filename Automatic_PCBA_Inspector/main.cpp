@@ -64,28 +64,15 @@ int main()
     //If both images are available then run comparision algorithms
     else
     {
+
         //Compute image realignment to remove rotations or scaling issues between reference and input
         Realign.image_realignment(Reference, Input);
         //Load the aligned image
         Mat Aligned = imread(fixedimg);
         //Detect the differences between the reference and the realigned image
         DetectDifference.DetectError(Reference, Aligned);
-        //Take a capture on a camera
-        //imagecapture.captureimg();
-        /*
-         *
-         *  The following captures an image from a camera, this is currently not working for class implementation
-         *
-         */
-        VideoCapture cap;
-        if(!cap.open(0)){
-            printf("Error opening\n\r");
-        }
-
-        Mat capture;
-        cap.read(capture);
-        imwrite(capture_img_path + "capture.jpg", capture);
-        imshow("Capture", capture);
+        //Take a capture on a camera, this is for proof of concept and can be implemented when boards are aquired
+        imagecapture.captureimg();
     }
     //Wait until 0 is pressed to exit
     waitKey(0);

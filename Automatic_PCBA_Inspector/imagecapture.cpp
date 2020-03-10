@@ -4,13 +4,14 @@ class imagecapture imagecapture;
 
 double imagecapture::captureimg()
 {
-    //VideoCapture cap;
-    /*if(!cap.open(0)){
+    VideoCapture cap;
+    if(!cap.open(0)){
         printf("Error opening\n\r");
     }
-    */
-    //Mat capture;
-    //cap.read(capture);
-    //imwrite(capture_img_path + "capture.jpg", capture);
+
+    Mat capture;
+    cap.read(capture);
+    imwrite(capture_img_path + "capture.jpg", capture);
+    //imshow("capture", capture);
     return 0;
 }
