@@ -5,13 +5,17 @@ class DetectDifference DetectDifference;
 //Comparision function between two images represented as matrices, this function checks if the two images are identical or different
 double DetectDifference::DetectError(const Mat Reference, const Mat Input)
 {
-    printf("Enter function\n\r");
-    //An empty matrix for later calculations
-    Mat result;
-    Mat Mask;
     if(Reference.empty() || Input.empty()){
         printf("matrix is empty\n\r");
     }
+
+    cvtColor(Input, HSVInput, CV_BGR2HSV);
+    cvtColor(Reference, HSVRef, CV_BGR2HSV);
+
+    HSVFilter = HSVInput + Scalar(0, 0, 100);
+    imshow("HSVFilter", HSVFilter);
+    imshow("HSVRef", HSVRef);
+    imwrite(calculation_img_path + "HSVFilter.jpg", HSVFilter);
 
 
     //Work out the error between the reference and the input and output the difference as result

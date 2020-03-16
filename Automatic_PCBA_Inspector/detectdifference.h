@@ -17,6 +17,9 @@ class DetectDifference
         //Define private variables
         Mat result;
         Mat Mask;
+        Mat HSVInput;
+        Mat HSVRef;
+        Mat HSVFilter;
         Mat Brush;
 };
 

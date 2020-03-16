@@ -22,8 +22,8 @@ This is a proof of concept software to demonstrate the use of machine vision for
 using namespace std;
 using namespace cv;
 //Global definitions for image paths
-static string referenceimg(test_img_path + "Reference01.jpg");
-static string productimg(test_img_path + "Different01.jpg");
+static string referenceimg(test_img_path + "Reference.jpg");
+static string productimg(test_img_path + "Difference.jpg");
 static string fixedimg(output_img_path + "aligned_image.jpg");
 
 int main()
