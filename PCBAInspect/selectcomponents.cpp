@@ -1,7 +1,10 @@
 #include "selectcomponents.h"
 
 class SelectComponents SelectComponents;
-Mat Components[255];
+int InitialX[255];
+int InitialY[255];
+int FinalX[255];
+int FinalY[255];
 string ComponentNames[255];
 string componentID;
 string XML_Path;
@@ -101,8 +104,12 @@ int DrawBoxes(string File_Path)
     if (SelectedRoi.init == 1) {
         // draw the rectangle updated by mouse move
         rectangle(DrawReference2, Rect(SelectedRoi.initX, SelectedRoi.initY, SelectedRoi.actualX- SelectedRoi.initX, SelectedRoi.actualY- SelectedRoi.initY), Scalar(255, 255, 255), 1, 8, 0);
-        //Store rectangle in an array
-        Components[componentNumber] = Mat(DrawReference2 ,Rect(SelectedRoi.initX, SelectedRoi.initY, SelectedRoi.actualX- SelectedRoi.initX, SelectedRoi.actualY- SelectedRoi.initY));
+        //Store coordinates in arrays
+        InitialX[componentNumber] = SelectedRoi.initX;
+        InitialY[componentNumber] = SelectedRoi.initY;
+        FinalX[componentNumber] = SelectedRoi.actualX;
+        FinalY[componentNumber] = SelectedRoi.actualY;
+        //Components[componentNumber] = Mat(DrawReference2 ,Rect(SelectedRoi.initX, SelectedRoi.initY, SelectedRoi.actualX- SelectedRoi.initX, SelectedRoi.actualY- SelectedRoi.initY));
     }
 
     /*
@@ -115,7 +122,8 @@ int DrawBoxes(string File_Path)
         //Ask user for component name
         cout << "Enter component name:\n\r";
         //Input component name
-        cin >> componentID;
+        //cin >> componentID;
+        getline(cin, componentID);
         //Store component ID (name) with relation to the number of the component
         ComponentNames[componentNumber] = componentID;
         //Clear ID after storage to prevent data corruption
@@ -127,49 +135,62 @@ int DrawBoxes(string File_Path)
 
     /*
      *
-     *  Write to file
+     *  Write to file and stop drawing
      *
      */
     if(SelectedRoi.init == 3){
+        cout << "Please enter the file name\n\r";
+        string UserInputName;
+        getline(cin, UserInputName);
+        string FileName = XML_Path + UserInputName + ".xml";
         //Set pFile as a file type
         FILE * pFile;
         //Attempt to open pFile as a read to detect if there is any issue in opening
-        pFile = fopen(XML_Path.c_str(), "r");
+        pFile = fopen(FileName.c_str(), "r");
         //If not able to open the file give error
         if(!pFile){
             perror("File opening failed, creating new file");
-            //If file does not exist then make file
-            pFile = fopen(XML_Path.c_str(), "w");
         }
+        fclose(pFile);
         //If the file is openable then open it as a write
-        pFile = fopen(XML_Path.c_str(), "w");
+        pFile = fopen(FileName.c_str(), "w");
         //Store each component name and coordinate in the xml file
-        for(int i = 0; i >= 255; i++){
+        //printf("Y start: %d\n X start: %d\n Y end: %d\n X end: %d", InitialY[0], InitialY[0], FinalY[0], FinalX[0]);
+        for(int i = 0; i < componentNumber; i++){
         fprintf(pFile, ComponentNames[i].c_str());
-
+        fprintf(pFile, ", %d", InitialX[i]);
+        fprintf(pFile, ", %d", InitialY[i]);
+        fprintf(pFile, ", %d", FinalX[i]);
+        fprintf(pFile, ", %d", FinalY[i]);
+        fprintf(pFile, "\n");
         }
-    }
+        fclose(pFile);
+        cout << "File saved\n\r";
+        cvDestroyWindow("ImageDrawing");
+        break;
+      }
 
       imshow("ImageDrawing", DrawReference2);
-      int key2 = waitKey(27);
+      //Display all previous rectangles
+      for(int j = 0; j < componentNumber; j++){
+          rectangle(DrawReference2, Point(InitialX[j], InitialY[j]), Point(FinalX[j], FinalY[j]), Scalar(0, 0, 255), 2);
+      }
+      imshow("ImageDrawing", DrawReference2);
+      int key2 = waitKey(10);
+      if (key2 == 27){
+            SelectedRoi.init = 3;
+      }
 
-      //Grab rectangle store into an array COMPLETED
 
-      //Change draw function to draw all stored rectangles
-      //Once selected region prompt user to type into control pannel, use name for rectangle is a string COMPLETED
-      //Save into xml, look up how to save variable types to xml files in opencv, save as rect, save under string name
-
-      //Call each rectangle something generic, rectangle 0 rect, and rectangle name, could save structure region of interest including a rectangle and a string
-
-      //QT widgets,
-
+      //Use fscanf and set a structure, string, int, int, int, int
+      //mask error with areas of interest
+      //If part of mask and error, draw an error
+      //copy to and draw a mask
 
 
     }
       return 0;
 }
-
-int Image_number = 6;
 double SelectComponents::DrawComponent(int Image_number){
 string File_Path = "C:/Users/User/Documents/QTProjects/PCBAI/Samples/Reference images/06/";
     //Switch the file path to the correct image
@@ -177,37 +198,37 @@ string File_Path = "C:/Users/User/Documents/QTProjects/PCBAI/Samples/Reference i
         case 1:
             //Select image file 1
             File_Path = "C:/Users/User/Documents/QTProjects/PCBAI/Samples/Reference images/01/";
-            XML_Path = "C:\\Users\\User\\Documents\\QTProjects\\PCBAI\\Samples\\Reference images\\01\\Coordinate locations\\ComponentCoordinates.xml";
+            XML_Path = "C:\\Users\\User\\Documents\\QTProjects\\PCBAI\\Samples\\Reference images\\01\\Coordinate locations\\";
         break;
         case 2:
             //Select image file 2
             File_Path = "C:/Users/User/Documents/QTProjects/PCBAI/Samples/Reference images/02/";
-            XML_Path = "C:\\Users\\User\\Documents\\QTProjects\\PCBAI\\Samples\\Reference images\\02\\Coordinate locations\\ComponentCoordinates.xml";
+            XML_Path = "C:\\Users\\User\\Documents\\QTProjects\\PCBAI\\Samples\\Reference images\\02\\Coordinate locations\\";
         break;
         case 3:
             //Select image file 3
             File_Path = "C:/Users/User/Documents/QTProjects/PCBAI/Samples/Reference images/03/";
-            XML_Path = "C:\\Users\\User\\Documents\\QTProjects\\PCBAI\\Samples\\Reference images\\03\\Coordinate locations\\ComponentCoordinates.xml";
+            XML_Path = "C:\\Users\\User\\Documents\\QTProjects\\PCBAI\\Samples\\Reference images\\03\\Coordinate locations\\";
         break;
         case 4:
             //Select image file 4
             File_Path = "C:/Users/User/Documents/QTProjects/PCBAI/Samples/Reference images/04/";
-            XML_Path = "C:\\Users\\User\\Documents\\QTProjects\\PCBAI\\Samples\\Reference images\\04\\Coordinate locations\\ComponentCoordinates.xml";
+            XML_Path = "C:\\Users\\User\\Documents\\QTProjects\\PCBAI\\Samples\\Reference images\\04\\Coordinate locations\\";
         break;
         case 5:
             //Select image file 5
             File_Path = "C:/Users/User/Documents/QTProjects/PCBAI/Samples/Reference images/05/";
-            XML_Path = "C:\\Users\\User\\Documents\\QTProjects\\PCBAI\\Samples\\Reference images\\05\\Coordinate locations\\ComponentCoordinates.xml";
+            XML_Path = "C:\\Users\\User\\Documents\\QTProjects\\PCBAI\\Samples\\Reference images\\05\\Coordinate locations\\";
         break;
         case 6:
             //Select image file 6
             File_Path = "C:/Users/User/Documents/QTProjects/PCBAI/Samples/Reference images/06/";
-            XML_Path = "C:\\Users\\User\\Documents\\QTProjects\\PCBAI\\Samples\\Reference images\\06\\Coordinate locations\\ComponentCoordinates.xml";
+            XML_Path = "C:\\Users\\User\\Documents\\QTProjects\\PCBAI\\Samples\\Reference images\\06\\Coordinate locations\\";
         break;
         default:
             //Select image file 6
             File_Path = "C:/Users/User/Documents/QTProjects/PCBAI/Samples/Reference images/06/";
-            XML_Path = "C:\\Users\\User\\Documents\\QTProjects\\PCBAI\\Samples\\Reference images\\06\\Coordinate locations\\ComponentCoordinates.xml";
+            XML_Path = "C:\\Users\\User\\Documents\\QTProjects\\PCBAI\\Samples\\Reference images\\06\\Coordinate locations\\";
         break;
     }
     int pathlength = XML_Path.length();

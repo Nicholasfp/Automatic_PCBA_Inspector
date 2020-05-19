@@ -2,38 +2,12 @@
 
 class DetectDifference DetectDifference;
 
-
 //Comparision function between two images represented as matrices, this function checks if the two images are identical or different
 double DetectDifference::DetectError(const Mat Reference, const Mat Input)
 {
     if(Reference.empty() || Input.empty()){
         printf("matrix is empty\n\r");
     }
-
-//    //convert colour to greyscale
-//    cvtColor(Input, GreyscaleInput, COLOR_BGR2GRAY);
-//    cvtColor(Reference, GreyscaleRef, CV_BGR2GRAY);
-
-//    //Equalize histograms to reduce the brightness and contrast
-//    equalizeHist(GreyscaleInput, InputEqualized);
-//    //Invert equalization
-//    InputEqualized = 255-InputEqualized;
-//    //Equalize histograms to reduce the brightness and contrast
-//    equalizeHist(GreyscaleRef, ReferenceEqualized);
-//    //Invert equalization
-//    ReferenceEqualized = 255-ReferenceEqualized;
-//    //Calculate the absolute difference between reference and input to identify discrepencies between the images
-//    absdiff(ReferenceEqualized, InputEqualized, EqualizedDif);
-//    //Invert the difference to allow for detection of black components
-//    EqualizedDif = 255-EqualizedDif;
-//    //Show the differences
-//    imshow("Equalizeddif", EqualizedDif);
-//    //Show equalized input and reference
-//    imshow("Input equalized", InputEqualized);
-//    imshow("Reference equalized", ReferenceEqualized);
-
-
-
 
     //Output sizes of each image
     cout<<Reference.size()<<endl;
@@ -47,9 +21,7 @@ double DetectDifference::DetectError(const Mat Reference, const Mat Input)
      *
      */
 
-    Mat colInput;
-    Mat colReference;
-    Mat colDiff;
+
 
     //If unable to open input or reference output an error
     if(Input.empty()){
@@ -61,7 +33,9 @@ double DetectDifference::DetectError(const Mat Reference, const Mat Input)
     else {
         //If images exist then run colour filter to set the range of brightness acceptable for the PCB
         inRange(Input, Scalar(4, 36, 2), Scalar(146, 255, 140), colInput);
+        //show the filtered input
         imshow("Colour filter input", colInput);
+        //
         inRange(Reference, Scalar(4, 36, 2), Scalar(146, 255, 140), colReference);
         imshow("Colour filter reference", colReference);
         absdiff(colReference, colInput, colDiff);

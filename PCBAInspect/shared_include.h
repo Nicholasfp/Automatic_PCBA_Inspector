@@ -11,6 +11,7 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/opencv.hpp>		//Search for and include openCV header
 #include <opencv2/features2d.hpp>	//Search for and include openCV features header
+#include "time.h"
 //#include "MouseDraw.h"
 //#include <opencv2/tracking.hpp>		//include tracking library for use in selecting ROI
 //#include <opencv2/xfeatures2d.hpp> //isolated as not found
