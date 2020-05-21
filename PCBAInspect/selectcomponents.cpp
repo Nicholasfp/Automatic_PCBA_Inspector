@@ -74,14 +74,14 @@ static void CallBackF(int event, int x, int y, int flags, void* img) {
 }
 
 //Function for drawing on top of an image, input image or open
-int DrawBoxes(string File_Path)
+string DrawBoxes(string File_Path)
 {
     // Set initial state for the SelectedRoi structure
     //- The init is set = 1 by left button down action
     //- This start to display image if (SelectedRoi.init != 0) in main for loop
 
 
-    Mat DrawReference = imread("C:/Users/User/Documents/QTProjects/PCBAI/Samples/Reference images/06/Reference.jpg");
+    Mat DrawReference = imread(File_Path + "Reference.jpg");
     namedWindow("ImageDrawing");
     // mouse call back function, where CallBackF is function
     // with parameters event type, x y coorfinates
@@ -122,7 +122,6 @@ int DrawBoxes(string File_Path)
         //Ask user for component name
         cout << "Enter component name:\n\r";
         //Input component name
-        //cin >> componentID;
         getline(cin, componentID);
         //Store component ID (name) with relation to the number of the component
         ComponentNames[componentNumber] = componentID;
@@ -155,7 +154,6 @@ int DrawBoxes(string File_Path)
         //If the file is openable then open it as a write
         pFile = fopen(FileName.c_str(), "w");
         //Store each component name and coordinate in the xml file
-        //printf("Y start: %d\n X start: %d\n Y end: %d\n X end: %d", InitialY[0], InitialY[0], FinalY[0], FinalX[0]);
         for(int i = 0; i < componentNumber; i++){
         fprintf(pFile, ComponentNames[i].c_str());
         fprintf(pFile, ", %d", InitialX[i]);
@@ -167,6 +165,7 @@ int DrawBoxes(string File_Path)
         fclose(pFile);
         cout << "File saved\n\r";
         cvDestroyWindow("ImageDrawing");
+        return FileName;
         break;
       }
 
@@ -180,18 +179,10 @@ int DrawBoxes(string File_Path)
       if (key2 == 27){
             SelectedRoi.init = 3;
       }
-
-
-      //Use fscanf and set a structure, string, int, int, int, int
-      //mask error with areas of interest
-      //If part of mask and error, draw an error
-      //copy to and draw a mask
-
-
     }
-      return 0;
+
 }
-double SelectComponents::DrawComponent(int Image_number){
+string SelectComponents::DrawComponent(int Image_number){
 string File_Path = "C:/Users/User/Documents/QTProjects/PCBAI/Samples/Reference images/06/";
     //Switch the file path to the correct image
     switch(Image_number){
@@ -231,13 +222,8 @@ string File_Path = "C:/Users/User/Documents/QTProjects/PCBAI/Samples/Reference i
             XML_Path = "C:\\Users\\User\\Documents\\QTProjects\\PCBAI\\Samples\\Reference images\\06\\Coordinate locations\\";
         break;
     }
-    int pathlength = XML_Path.length();
-    char PathArray[pathlength + 1];
-    strcpy(PathArray, XML_Path.c_str());
-    //Run the draw components function
-    DrawBoxes(File_Path);
-    //Store the component coordinates into a notepad with a label
 
-    //Return 0
-    return 0;
+    //Run the draw components function
+    string OutputFile = DrawBoxes(File_Path);
+    return OutputFile;
 }

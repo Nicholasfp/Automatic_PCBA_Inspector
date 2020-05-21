@@ -61,7 +61,7 @@ double Realign::image_realignment(Mat input, Mat reference)
         imwrite(output_img_path + "aligned_image.jpg", output);
 
         //Print estimated homography
-        cout << "Estimated homography" << endl << homography_matrix << endl;
+        //cout << "Estimated homography" << endl << homography_matrix << endl;
         //Display matches
         Mat match_draw = imread(calculation_img_path + "matches.jpg");
         //Display output

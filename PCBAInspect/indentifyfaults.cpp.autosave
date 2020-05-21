@@ -1,0 +1,11 @@
+#include "indentifyfaults.h"
+
+class IdentifyFaultyComponents FindFaults;
+
+string IndentifyFaultyComponents::SearchError(){
+    //Use fscanf and set a structure, string, int, int, int, int
+    //mask error with areas of interest
+    //If part of mask and error, draw an error
+    //copy to and draw a mask
+    fscanf()
+}

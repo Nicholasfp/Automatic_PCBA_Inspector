@@ -10,7 +10,7 @@ using namespace cv;
 class SelectComponents
 {
 public:
-    double DrawComponent(int Image_number);
+    string DrawComponent(int Image_number);
 
 private:
 

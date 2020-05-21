@@ -1,7 +1,6 @@
 TEMPLATE = app
 CONFIG += console c++11
 CONFIG -= app_bundle
-CONFIG -= qt
 
 INCLUDEPATH += C:\openCV343\release\install\include
 
@@ -18,14 +17,15 @@ LIBS+= C:\openCV343\release\bin\libopencv_photo343.dll
 
 SOURCES += \
     detectdifference.cpp\
+    identifyfaults.cpp \
     imagecapture.cpp \
     main.cpp \
     realign.cpp \
     selectcomponents.cpp \
 
 HEADERS += \
-    MouseDraw.h \
     detectdifference.h \
+    identifyfaults.h \
     imagecapture.h \
     realign.h \
     selectcomponents.h \

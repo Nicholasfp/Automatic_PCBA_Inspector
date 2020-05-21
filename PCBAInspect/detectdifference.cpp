@@ -10,8 +10,8 @@ double DetectDifference::DetectError(const Mat Reference, const Mat Input)
     }
 
     //Output sizes of each image
-    cout<<Reference.size()<<endl;
-    cout<<Input.size()<<endl;
+    //cout<<Reference.size()<<endl;
+    //cout<<Input.size()<<endl;
     //Work out the error between the reference and the input and output the difference as result
     absdiff(Reference, Input, result);
 
@@ -20,9 +20,6 @@ double DetectDifference::DetectError(const Mat Reference, const Mat Input)
      *  Colour thresholding
      *
      */
-
-
-
     //If unable to open input or reference output an error
     if(Input.empty()){
         cout << "Input image not available\n\r";
@@ -42,11 +39,11 @@ double DetectDifference::DetectError(const Mat Reference, const Mat Input)
         imshow("Color filter difference", colDiff);
     }
 
+
     /*
      *  Noise reduction mask
      *
      */
-
     //Set the dilation brush size
     int dilation_size=2;
     //Define the brush type for dilation and erosion

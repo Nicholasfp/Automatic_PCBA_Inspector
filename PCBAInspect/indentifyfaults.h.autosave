@@ -1,0 +1,20 @@
+#ifndef INDENTIFYFAULTS_H
+#define INDENTIFYFAULTS_H
+#include "shared_include.h"
+#pragma once
+
+using namespace std;
+using namespace cv;
+
+class IndentifyFaultyComponents
+{
+    public:
+    string SearchError();
+
+    private:
+
+};
+
+extern IndentifyFaultyComponents FindFaults;
+
+#endif // INDENTIFYFAULTS_H
