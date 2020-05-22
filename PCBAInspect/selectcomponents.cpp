@@ -120,9 +120,11 @@ string DrawBoxes(string File_Path)
 
     if(SelectedRoi.init == 2){
         //Ask user for component name
-        cout << "Enter component name:\n\r";
+        cout << "Enter component name: " << endl;
         //Input component name
+        cin.get();
         getline(cin, componentID);
+        cout << endl;
         //Store component ID (name) with relation to the number of the component
         ComponentNames[componentNumber] = componentID;
         //Clear ID after storage to prevent data corruption

@@ -37,36 +37,13 @@ Mat Input;
 Mat Reference;
 Mat Aligned;
 string File_Path;
+string DefaultCoordName = "Test.xml";
 
 
 int main()
 {
     cv::setBreakOnError(true);
-                                                    //    //Read the images stored in the directory and define them as img0 and img1
-                                                    //    Mat Reference = imread(referenceimg);
-                                                    //    Mat Input = imread(productimg);
 
-                                                    //    //Failure condition test mode to check if no image is available
-                                                    //    if (Reference.empty())
-                                                    //    {
-                                                    //        //Print reference image is missing
-                                                    //        printf("Error: reference image is missing\n");
-                                                    //        //Wait for any key press to exit
-                                                    //        cin.get();
-           //OLD CODE                               //        return -1;
-                                                    //    }
-                                                    //    else if (Input.empty())
-                                                    //    {
-                                                    //        //Print input image is missing
-                                                    //        printf("Error: product image is missing\n");
-                                                    //        //Wait for any key press to exit
-                                                    //        cin.get();
-                                                    //        return -1;
-                                                    //    }
-
-                                                    //    //If both images are available then run comparision algorithms
-                                                    //    else
-                                                    //    {
        /*
         *
         *  User interface
@@ -98,8 +75,6 @@ int main()
 
         if(Option != "1" && Option != "2" && Option != "3"){
             cout << "Please enter a valid option" << endl;
-                                                                    //            //Test draw function
-                                                                    //            CoordinatesFile = SelectComponents.DrawComponent(6);
         }
 
         else if(Option == "1"){
@@ -139,7 +114,7 @@ int main()
                 break;
             }
             //Write the coordinates file as the file listed in the directory
-            CoordinatesFile = File_Path + "Test.xml";
+            CoordinatesFile = File_Path + DefaultCoordName;
 
         }
         else if(Option == "3"){
@@ -220,7 +195,7 @@ int main()
 
 
             //Set up file name for coordinates        SET UP TO USE A DEFAULT NAME FOR COORDINATE FILES
-            CoordinatesFile = File_Path + "Test.xml";
+            CoordinatesFile = File_Path + DefaultCoordName;
 
             //Read the images stored in the directory and define them as Reference and Input
             Reference = imread(File_Path + "Reference.jpg");
@@ -352,33 +327,10 @@ int main()
             //Broken bit, needs help from james
             //Use a text file to set up the default read name for the file, for demo use test.xml
             //FindFaults.SearchError(CoordinatesFile);
-            //FindFaults.SearchError("C:/Users/User/Documents/QTProjects/PCBAI/Samples/Reference images/06/Test.xml");
+            FindFaults.SearchError("C:\\Users\\User\\Documents\\QTProjects\\PCBAI\\Samples\\Reference images\\06\\Coordinate locations\\Test.xml");
 
         break;
         }
-
-
-
-
-/*
- *
- *      OLD TESTING CODE
- *
- */
-
-
-//        //Compute image realignment to remove rotations or scaling issues between reference and input
-//        Realign.image_realignment(Reference, Input);
-//        //Load the aligned image
-//        Mat Aligned = imread(fixedimg);
-//        //Detect the differences between the reference and the realigned image
-//        DetectDifference.DetectError(Reference, Aligned);
-//        //Take a capture on a camera, this is for proof of concept and can be implemented when boards are aquired
-//        imagecapture.captureimg();
-
-//        //Broken bit, needs help from james
-//        //FindFaults.SearchError(CoordinatesFile);
-//        //FindFaults.SearchError("C:/Users/User/Documents/QTProjects/PCBAI/Samples/Reference images/06/Test.xml");
 
     //Wait until 0 is pressed to exit
     waitKey(0);
