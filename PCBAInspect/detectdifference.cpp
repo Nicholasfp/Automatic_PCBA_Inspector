@@ -9,9 +9,6 @@ double DetectDifference::DetectError(const Mat Reference, const Mat Input)
         printf("matrix is empty\n\r");
     }
 
-    //Output sizes of each image
-    //cout<<Reference.size()<<endl;
-    //cout<<Input.size()<<endl;
     //Work out the error between the reference and the input and output the difference as result
     absdiff(Reference, Input, result);
 
@@ -41,6 +38,7 @@ double DetectDifference::DetectError(const Mat Reference, const Mat Input)
 
 
     /*
+     *
      *  Noise reduction mask
      *
      */
@@ -51,7 +49,6 @@ double DetectDifference::DetectError(const Mat Reference, const Mat Input)
     //Convert color space to gray to remove all colour
     cvtColor(result,result,CV_BGR2GRAY);
     //Define the range of colour values to modify
-    //inRange(result, 25, 255, Mask);
     inRange(colDiff, 25, 255, Mask);
 
     //Erode then dilate to remove noise
@@ -61,7 +58,6 @@ double DetectDifference::DetectError(const Mat Reference, const Mat Input)
     dilate(Mask, Mask, element);
     erode(Mask, Mask, element);
     dilate(Mask, Mask, element);
-
 
     //Overlay the mask with a red mask to identify the error between the two images
     Mat Diff(Mask.size(),CV_8UC3,Scalar(0,0,0));

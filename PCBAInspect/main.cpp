@@ -1,20 +1,3 @@
-
-/*
-Phil Culverhouse Oct 2016 (c) Plymouth University
-James Rogers Jan 2020     (c) Plymouth University
-
-This demo code will move eye and neck servos with kepresses.
-When 'c' is pressed, one eye will track the target currently within the target window.
-
-Use this code as a base for your assignment.
-
-*/
-
-
-/*
-This is a proof of concept software to demonstrate the use of machine vision for automated circuit inspection
-
-*/
 #include "shared_include.h"
 #include "realign.h"
 #include "detectdifference.h"
@@ -24,19 +7,19 @@ This is a proof of concept software to demonstrate the use of machine vision for
 using namespace std;
 using namespace cv;
 //Global definitions for image paths
-                                                    //static string referenceimg(test_img_path + "Reference.jpg");
-                                                    //static string productimg(test_img_path + "Different02.jpg");
 static string fixedimg(output_img_path + "aligned_image.jpg");
 
 //Used for selecting image to use
 int Image_number = 6;
 //Change this to use the camera
 int UseCam = 0;
-//Used for input and reference image setup
+//Used for image setup
 Mat Input;
 Mat Reference;
 Mat Aligned;
+//Used for path names
 string File_Path;
+string Coord_Path;
 string DefaultCoordName = "Test.xml";
 
 
@@ -132,8 +115,8 @@ int main()
         *
         */
         case 1:
-            cout << "Please ensure that the file path with reference images are set up in the references folder and the program has been set up for your new file" << endl;
-            cout << "Please enter the program number for the file you wish to modify, if the number is a single digit please enter a 0 before the number" << endl;
+            cout << "Please ensure that the file path with reference images are set up in the references folder and the program has been set up for your new file, if an incorrect file is selected the default program will be modified" << endl;
+            cout << "Please enter the program number for the file you wish to modify" << endl;
             //User variable for selection
             int NewCoordnum;
             cin >>NewCoordnum;
@@ -166,36 +149,43 @@ int main()
             case 1:
                 //Select image file 1
                 File_Path = "C:/Users/User/Documents/QTProjects/PCBAI/Samples/Reference images/01/";
+                Coord_Path = "C:\\Users\\User\\Documents\\QTProjects\\PCBAI\\Samples\\Reference images\\01\\Coordinate locations\\";
                 break;
             case 2:
                 //Select image file 2
                 File_Path = "C:/Users/User/Documents/QTProjects/PCBAI/Samples/Reference images/02/";
+                Coord_Path = "C:\\Users\\User\\Documents\\QTProjects\\PCBAI\\Samples\\Reference images\\02\\Coordinate locations\\";
                 break;
             case 3:
                 //Select image file 3
                 File_Path = "C:/Users/User/Documents/QTProjects/PCBAI/Samples/Reference images/03/";
+                Coord_Path = "C:\\Users\\User\\Documents\\QTProjects\\PCBAI\\Samples\\Reference images\\03\\Coordinate locations\\";
                 break;
             case 4:
                 //Select image file 4
                 File_Path = "C:/Users/User/Documents/QTProjects/PCBAI/Samples/Reference images/04/";
+                Coord_Path = "C:\\Users\\User\\Documents\\QTProjects\\PCBAI\\Samples\\Reference images\\04\\Coordinate locations\\";
                 break;
             case 5:
                 //Select image file 5
                 File_Path = "C:/Users/User/Documents/QTProjects/PCBAI/Samples/Reference images/05/";
+                Coord_Path = "C:\\Users\\User\\Documents\\QTProjects\\PCBAI\\Samples\\Reference images\\05\\Coordinate locations\\";
                 break;
             case 6:
                 //Select image file 6
                 File_Path = "C:/Users/User/Documents/QTProjects/PCBAI/Samples/Reference images/06/";
+                Coord_Path = "C:\\Users\\User\\Documents\\QTProjects\\PCBAI\\Samples\\Reference images\\06\\Coordinate locations\\";
                 break;
             default:
                 //Select image file 6
                 File_Path = "C:/Users/User/Documents/QTProjects/PCBAI/Samples/Reference images/06/";
+                Coord_Path = "C:\\Users\\User\\Documents\\QTProjects\\PCBAI\\Samples\\Reference images\\06\\Coordinate locations\\";
                 break;
             }
 
 
             //Set up file name for coordinates        SET UP TO USE A DEFAULT NAME FOR COORDINATE FILES
-            CoordinatesFile = File_Path + DefaultCoordName;
+            CoordinatesFile = Coord_Path + DefaultCoordName;
 
             //Read the images stored in the directory and define them as Reference and Input
             Reference = imread(File_Path + "Reference.jpg");
@@ -251,12 +241,9 @@ int main()
             Aligned = imread(fixedimg);
             //Detect the differences between the reference and the realigned image
             DetectDifference.DetectError(Reference, Aligned);
+            //Show the faults detected
+            FindFaults.SearchError(CoordinatesFile);
 
-
-            //Broken bit, needs help from james
-            //Use a text file to set up the default read name for the file, for demo use test.xml
-            //FindFaults.SearchError(CoordinatesFile);
-            //FindFaults.SearchError("C:/Users/User/Documents/QTProjects/PCBAI/Samples/Reference images/06/Test.xml");
         break;
 
        /*
@@ -266,7 +253,7 @@ int main()
         */
         case 3:
             //Set up file name for coordinates        SET UP TO USE A DEFAULT NAME FOR COORDINATE FILES
-            CoordinatesFile = "C:/Users/User/Documents/QTProjects/PCBAI/Samples/Reference images/06/Test.xml";
+            CoordinatesFile = "C:\\Users\\User\\Documents\\QTProjects\\PCBAI\\Samples\\Reference images\\06\\Coordinate locations\\Test.xml";
 
             //Read the images stored in the directory and define them as Reference and Input
             Reference = imread("C:/Users/User/Documents/QTProjects/PCBAI/Samples/Reference images/06/Reference.jpg");
@@ -296,7 +283,7 @@ int main()
             if (Reference.empty())
             {
                 //Print reference image is missing
-                printf("Error: reference image is missing\n");
+                cout << "Error: reference image is missing" << endl;
                 //Wait for any key press to exit
                 cin.get();
                 return -1;
@@ -304,7 +291,7 @@ int main()
             else if (Input.empty())
             {
                 //Print input image is missing
-                printf("Error: Input image is missing\n");
+                cout << "Error: Input image is missing" << endl;
                 //Wait for any key press to exit
                 cin.get();
                 return -1;
@@ -322,13 +309,8 @@ int main()
             Aligned = imread(fixedimg);
             //Detect the differences between the reference and the realigned image
             DetectDifference.DetectError(Reference, Aligned);
-
-
-            //Broken bit, needs help from james
-            //Use a text file to set up the default read name for the file, for demo use test.xml
-            //FindFaults.SearchError(CoordinatesFile);
-            FindFaults.SearchError("C:\\Users\\User\\Documents\\QTProjects\\PCBAI\\Samples\\Reference images\\06\\Coordinate locations\\Test.xml");
-
+            //Show the faults detected
+            FindFaults.SearchError(CoordinatesFile);
         break;
         }
 

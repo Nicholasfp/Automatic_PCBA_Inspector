@@ -76,18 +76,13 @@ static void CallBackF(int event, int x, int y, int flags, void* img) {
 //Function for drawing on top of an image, input image or open
 string DrawBoxes(string File_Path)
 {
-    // Set initial state for the SelectedRoi structure
-    //- The init is set = 1 by left button down action
-    //- This start to display image if (SelectedRoi.init != 0) in main for loop
-
-
+    //Set a matrix for the reference
     Mat DrawReference = imread(File_Path + "Reference.jpg");
     namedWindow("ImageDrawing");
-    // mouse call back function, where CallBackF is function
-    // with parameters event type, x y coorfinates
+    //Set up mouse callback function
     setMouseCallback("ImageDrawing", CallBackF, 0);
 
-    //
+
     while(1){
     //Copy the array to display the rectangles
     Mat DrawReference2;
@@ -109,7 +104,6 @@ string DrawBoxes(string File_Path)
         InitialY[componentNumber] = SelectedRoi.initY;
         FinalX[componentNumber] = SelectedRoi.actualX;
         FinalY[componentNumber] = SelectedRoi.actualY;
-        //Components[componentNumber] = Mat(DrawReference2 ,Rect(SelectedRoi.initX, SelectedRoi.initY, SelectedRoi.actualX- SelectedRoi.initX, SelectedRoi.actualY- SelectedRoi.initY));
     }
 
     /*
