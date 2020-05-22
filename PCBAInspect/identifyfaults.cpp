@@ -81,6 +81,8 @@ int IdentifyFaultyComponents::SearchError(string CoordinatesFile){
     //Copy error to display rectangles over
     Mat ErrorCopy;
     Errors.copyTo(ErrorCopy);
+    //Boolean for outputting if no error detected
+    bool NoError = true;
     for(int i = 0; i < SelectionList.size(); i++){
         Mat SelectionImg;
         Rect ComponentRect(Point(SelectionList[i].initX, SelectionList[i].initY), Point(SelectionList[i].FinalX, SelectionList[i].FinalY));
@@ -92,6 +94,7 @@ int IdentifyFaultyComponents::SearchError(string CoordinatesFile){
                 //Check that points are not black
                 if (SelectionImg.at<Vec3b>(y,x) != Vec3b(0, 0, 0)){
                     rectangle(ErrorCopy, ComponentRect, Scalar(0, 255, 0), 2);
+                    NoError = false;
                     //If error detected break loop for this component and output component name as error
                     goto endloop;
                 }
@@ -102,6 +105,10 @@ int IdentifyFaultyComponents::SearchError(string CoordinatesFile){
 
     }
     imshow("Overlay rectangles",ErrorCopy);
+    //If no errors detected then say no errors detected
+    if(NoError == true){
+        cout << "No errors detected" << endl;
+    }
 
     return 0;
 }

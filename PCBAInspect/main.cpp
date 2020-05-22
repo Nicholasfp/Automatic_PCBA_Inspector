@@ -270,7 +270,10 @@ int main()
                 Input = imread(capture_img_path + "capture.jpg");
             }
             else{
+                //Use this to demonstrate normal code
                 Input = imread("C:/Users/User/Documents/QTProjects/PCBAI/Samples/Reference images/06/Different01.jpg");
+                //Use this to demonstrate ability to find good board
+                //Input = imread("C:/Users/User/Documents/QTProjects/PCBAI/Samples/Reference images/06/Reference.jpg");
             }
 
            /*
