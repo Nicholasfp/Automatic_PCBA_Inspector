@@ -38,11 +38,6 @@ SelectedRoi;
 // If the event is evauated as happened the global structure SelectedRoi
 // is updated.
 static void CallBackF(int event, int x, int y, int flags, void* img) {
-//Mouse Right button down
-  if (event == EVENT_RBUTTONDOWN) {
-    //cout << "right button " << endl;
-    return;
-  }
 //Mouse Left button down to set origin coordinates
   if (event == EVENT_LBUTTONDOWN) {
     SelectedRoi.initX = x;

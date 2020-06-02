@@ -5,13 +5,6 @@ class DetectDifference DetectDifference;
 //Comparision function between two images represented as matrices, this function checks if the two images are identical or different
 double DetectDifference::DetectError(const Mat Reference, const Mat Input)
 {
-    if(Reference.empty() || Input.empty()){
-        printf("matrix is empty\n\r");
-    }
-
-    //Work out the error between the reference and the input and output the difference as result
-    absdiff(Reference, Input, result);
-
     /*
      *
      *  Colour thresholding
@@ -19,24 +12,24 @@ double DetectDifference::DetectError(const Mat Reference, const Mat Input)
      */
     //If unable to open input or reference output an error
     if(Input.empty()){
-        cout << "Input image not available\n\r";
+        cout << "Input image not available" << endl;
     }
     else if(Reference.empty()){
-        cout << "Reference image not availble\n\r";
+        cout << "Reference image not availble" << endl;
     }
     else {
-        //If images exist then run colour filter to set the range of brightness acceptable for the PCB
+        //If images exist then run colour filter to set the range of brightness acceptable for the PCB, set these to the range of colours used by the PCB board
         inRange(Input, Scalar(4, 36, 2), Scalar(146, 255, 140), colInput);
         //show the filtered input
         imshow("Colour filter input", colInput);
-        //
+        //If images exist then run colour filter to set the range of brightness acceptable for the PCB, set these to the range of colours used by the PCB board
         inRange(Reference, Scalar(4, 36, 2), Scalar(146, 255, 140), colReference);
+        //show the filtered reference
         imshow("Colour filter reference", colReference);
         absdiff(colReference, colInput, colDiff);
+        //show the difference
         imshow("Color filter difference", colDiff);
     }
-
-
     /*
      *
      *  Noise reduction mask
@@ -46,8 +39,6 @@ double DetectDifference::DetectError(const Mat Reference, const Mat Input)
     int dilation_size=2;
     //Define the brush type for dilation and erosion
     Mat element = getStructuringElement( MORPH_ELLIPSE, Size( 2*dilation_size + 1, 2*dilation_size+1 ), Point( dilation_size, dilation_size ) );
-    //Convert color space to gray to remove all colour
-    cvtColor(result,result,CV_BGR2GRAY);
     //Define the range of colour values to modify
     inRange(colDiff, 25, 255, Mask);
 
@@ -61,16 +52,16 @@ double DetectDifference::DetectError(const Mat Reference, const Mat Input)
 
     //Overlay the mask with a red mask to identify the error between the two images
     Mat Diff(Mask.size(),CV_8UC3,Scalar(0,0,0));
+    //colour the errors red
     Diff.setTo(Scalar(0, 0, 255), Mask);
-    imwrite(calculation_img_path + "Error.jpg", Diff);
+    //Save the image
+    imwrite(calculation_img_path + "Error.png", Diff);
+    //Show the result
     imshow("result", Diff);
-
     /*
      *  End mask
      *
      */
-
-
     return 0;
 }
 

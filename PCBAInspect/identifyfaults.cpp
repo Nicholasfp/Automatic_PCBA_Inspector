@@ -18,15 +18,6 @@ struct Selection {
 }
 Component;
 
-//Structure for storing coordinates read from the error image
-struct ErrorPoints {
-
-    //Coordinates to save x and y from errors
-    int Errorx;
-    int Errory;
-
-};
-
 
 //Create a boolean to detect if point is within a rect
 bool FindPoint(int x1, int y1, int x2, int y2, int x, int y) {
@@ -67,10 +58,8 @@ int IdentifyFaultyComponents::SearchError(string CoordinatesFile){
     }
 
     //Load error from calculation path
-    Errors = imread(calculation_img_path + "Error.jpg");
+    Errors = imread(calculation_img_path + "Error.png");
 
-    //Create vector to store error coordinates
-    vector <ErrorPoints> ErrorList;
 
     /*
      *
@@ -94,8 +83,9 @@ int IdentifyFaultyComponents::SearchError(string CoordinatesFile){
                 //Check that points are not black
                 if (SelectionImg.at<Vec3b>(y,x) != Vec3b(0, 0, 0)){
                     rectangle(ErrorCopy, ComponentRect, Scalar(0, 255, 0), 2);
+                    //Prevent displaying no faults detected
                     NoError = false;
-                    //If error detected break loop for this component and output component name as error
+                    //If fault detected break loop for this component and output component name as error
                     goto endloop;
                 }
             }
@@ -107,7 +97,7 @@ int IdentifyFaultyComponents::SearchError(string CoordinatesFile){
     imshow("Overlay rectangles",ErrorCopy);
     //If no errors detected then say no errors detected
     if(NoError == true){
-        cout << "No errors detected" << endl;
+        cout << "No faults detected" << endl;
     }
 
     return 0;

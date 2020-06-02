@@ -39,8 +39,8 @@ double Realign::image_realignment(Mat input, Mat reference)
         Mat imMatches;
         //Draw the best matches on the images
         drawMatches(reference, keypointsReference, input, keypointsInput, matches, imMatches);
-        //Save drawn image as matches.jpg
-        imwrite(calculation_img_path + "matches.jpg", imMatches);
+        //Save drawn image as matches.png
+        imwrite(calculation_img_path + "matches.png", imMatches);
 
         //Extract location of good matches
         vector<Point2f> pointsReference, pointsInput;
@@ -58,14 +58,14 @@ double Realign::image_realignment(Mat input, Mat reference)
         //Use homography to warp image for use in alignment
         warpPerspective(reference, output, homography_matrix, input.size());
         //Save the output file
-        imwrite(output_img_path + "aligned_image.jpg", output);
+        imwrite(output_img_path + "aligned_image.png", output);
 
         //Print estimated homography
         //cout << "Estimated homography" << endl << homography_matrix << endl;
         //Display matches
-        Mat match_draw = imread(calculation_img_path + "matches.jpg");
+        Mat match_draw = imread(calculation_img_path + "matches.png");
         //Display output
-        Mat Aligned = imread(output_img_path + "aligned_image.jpg");
+        Mat Aligned = imread(output_img_path + "aligned_image.png");
 
         return 0;
     }

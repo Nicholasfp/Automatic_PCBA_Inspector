@@ -7,12 +7,13 @@
 using namespace std;
 using namespace cv;
 //Global definitions for image paths
-static string fixedimg(output_img_path + "aligned_image.jpg");
+static string fixedimg(output_img_path + "aligned_image.png");
 
-//Used for selecting image to use
+//Used for default selecting image to use
 int Image_number = 6;
 //Change this to use the camera
 int UseCam = 0;
+
 //Used for image setup
 Mat Input;
 Mat Reference;
@@ -21,6 +22,7 @@ Mat Aligned;
 string File_Path;
 string Coord_Path;
 string DefaultCoordName = "Test.xml";
+
 
 
 int main()
@@ -38,7 +40,6 @@ int main()
         string ProductNum;
         string CoordinatesFile;
         int User_Selection;
-
         //Project title
         cout << "Student 10554824 PROJ324 final year project: Automatic Printed Circuit Board (PCB) Inspector" << endl;
 
@@ -199,7 +200,7 @@ int main()
             if(UseCam == 1){
                 //Take a capture on a camera, this is for proof of concept and can be implemented when boards are aquired
                 imagecapture.captureimg();
-                Input = imread(capture_img_path + "capture.jpg");
+                Input = imread(capture_img_path + "capture.png");
             }
             else{
                 Input = imread(File_Path + "Different01.jpg");
@@ -267,11 +268,13 @@ int main()
             if(UseCam == 1){
                 //Take a capture on a camera, this is for proof of concept and can be implemented when boards are aquired
                 imagecapture.captureimg();
-                Input = imread(capture_img_path + "capture.jpg");
+                Input = imread(capture_img_path + "capture.png");
             }
             else{
                 //Use this to demonstrate normal code
-                Input = imread("C:/Users/User/Documents/QTProjects/PCBAI/Samples/Reference images/06/Different01.jpg");
+                //Input = imread("C:/Users/User/Documents/QTProjects/PCBAI/Samples/Reference images/06/Different01.jpg");
+                //Use this to demonstrate different brightness
+                Input = imread("C:/Users/User/Documents/QTProjects/PCBAI/Samples/Reference images/06/Different02.jpg");
                 //Use this to demonstrate ability to find good board
                 //Input = imread("C:/Users/User/Documents/QTProjects/PCBAI/Samples/Reference images/06/Reference.jpg");
             }
@@ -320,5 +323,4 @@ int main()
     //Wait until 0 is pressed to exit
     waitKey(0);
     return 0;
-
 }
